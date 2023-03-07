@@ -18,6 +18,7 @@ const words = [
   "live",
   "developer",
 ];
+let playerLives=10;
 
 const getWord = () => words[Math.floor(Math.random() * words.length)]; //return a random word from the array.
 
@@ -68,17 +69,26 @@ const populateAlphabet = () => {
 
 alphabet.addEventListener("click", (e) => {
   for (let i=0; i<chosenWord.length; i++) {
-    if (e.target.textContent===chosenWord[i]) {
+    if (e.target.textContent===chosenWord[i] ) {
       chars[i]=e.target.textContent
     }
   }
   word.innerHTML=chars.join("")
+  if (!chosenWord.includes(e.target.textContent) && playerLives>0) {
+    playerLives-=1
+    lives.innerHTML=`${playerLives} lives remaining.`
+  }
+  if (chars===chosenWord) {
+    alert("You guessed the word, it was "+chosenWord)
+  }
 }); //used for when the user clicks on the alphabet elements.
+
 const initGame = () => {
   for (let i = 0; i < chosenWord.length; i++) {
     chars.push("*");
   }
   word.innerHTML = chars.join("");
+  lives.innerHTML=playerLives;
   populateAlphabet();
 };
 initGame();
